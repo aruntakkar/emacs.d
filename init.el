@@ -21,6 +21,12 @@
   :ensure t
   :config (load-theme 'monokai t))
 
+(use-package drag-stuff
+  :ensure t
+  :init (drag-stuff-global-mode 1)
+  :bind (("M-N" . drag-stuff-up)
+	 ("M-P" . drag-stuff-down)))		
+
 (use-package magit
   :ensure t
   :defer t
@@ -40,15 +46,9 @@
 (toggle-frame-maximized)
 (global-linum-mode t)
 (show-paren-mode 1)
-
-;; recent open files
-(recentf-mode 1)
+(recentf-mode 1) ;; For recent open files
 (global-set-key "\C-xt" 'recentf-open-files)
 (setq recentf-auto-cleanup 'never)
-
-;; For moving regions up or down with drag-stuff
-(drag-stuff-global-mode 1)
-(drag-stuff-define-keys)		
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
