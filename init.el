@@ -1,4 +1,10 @@
+;;; package --- Summary
+
+;;; Commentary:
+
 (require 'package)
+
+;;; Code:
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
@@ -10,19 +16,29 @@
   (package-install 'use-package))
 (setq use-package-always-ensure t)
 
-;; Basic Configuration
-(setq initial-scratch-message nil)
-(setq inhibit-startup-screen t)
-(set-language-environment "UTF-8")
+;; Cleaning gui
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(setq initial-scratch-message nil)
+(setq inhibit-startup-screen t)
 (toggle-frame-maximized)
+
+;; Basic configuration
+(set-language-environment "UTF-8")
+(setq tab-width 4)
 (global-linum-mode t)
-(show-paren-mode 1)
-(recentf-mode 1) ;; For recent open files
+(show-paren-mode t)
+
+;; For recent open files
+(recentf-mode 1)
 (global-set-key "\C-xt" 'recentf-open-files)
 (setq recentf-auto-cleanup 'never)
+
+;; External Packages
+(use-package monokai-theme
+  :ensure t
+  :config (load-theme 'monokai t))
 
 (use-package try
   :defer t)
@@ -30,11 +46,7 @@
 (use-package which-key
   :defer t
   :diminish which-key-mode
-  :config (which-key-mode))
-
-(use-package monokai-theme
-  :ensure t
-  :config (load-theme 'monokai t))
+  :init (add-hook 'after-init-hook 'which-key-mode))
 
 (use-package drag-stuff
   :defer t
@@ -46,7 +58,7 @@
 (use-package company
   :defer t
   :diminish company-mode
-  :init(add-hook 'after-init-hook 'global-company-mode))
+  :init (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package magit
   :defer t
@@ -66,6 +78,7 @@
 
 (use-package flycheck
   :defer t
-  :diminish t
-  :config (global-flycheck-mode))
-    
+  :diminish
+  :init (add-hook 'after-init-hook 'global-flycheck-mode))
+
+;;; init.el ends here
