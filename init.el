@@ -1,6 +1,11 @@
-;;; package --- Summary
+;;; init.el --- Arun's Emacs Configuration
 
+;; Author: Arun
+;; URL: https://github.com/aruntakkar/emacs.d
+ 
 ;;; Commentary:
+;; This is my personal Emacs configuration.
+
 
 (require 'package)
 
@@ -10,32 +15,50 @@
 
 (package-initialize)
 
+;; -----------------------
 ;; Bootstrap 'use-package'
+;; -----------------------
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (setq use-package-always-ensure t)
 
-;; Cleaning gui
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq initial-scratch-message nil)
-(setq inhibit-startup-screen t)
-(toggle-frame-maximized)
+;; ----------------
+;; Cleaning GUI
+;; ----------------
+(when window-system
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1))
 
-;; Basic configuration
-(set-language-environment "UTF-8")
+;; -----------------
+;; General Settings
+;; -----------------
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+(setq indent-tabs-mode nil)
 (setq tab-width 4)
+(toggle-frame-maximized)
 (global-linum-mode t)
 (show-paren-mode t)
 
-;; For recent open files
+;; -----------------
+;; Encoding
+;; -----------------
+(prefer-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
+;; -----------------
+;; For Recent Files
+;; -----------------
 (recentf-mode 1)
 (global-set-key "\C-xt" 'recentf-open-files)
 (setq recentf-auto-cleanup 'never)
 
+;; -----------------
 ;; External Packages
+;; -----------------
 (use-package monokai-theme
   :ensure t
   :config (load-theme 'monokai t))
@@ -78,7 +101,10 @@
 
 (use-package flycheck
   :defer t
-  :diminish
-  :init (add-hook 'after-init-hook 'global-flycheck-mode))
+  :diminish flycheck-mode
+  :config
+  (progn
+    (setq flycheck-display-errors-function nil)
+    (add-hook 'after-init-hook 'global-flycheck-mode)))
 
 ;;; init.el ends here
