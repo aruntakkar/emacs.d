@@ -107,4 +107,10 @@
     (setq flycheck-display-errors-function nil)
     (add-hook 'after-init-hook 'global-flycheck-mode)))
 
+(use-package org
+  :defer t
+  :diminish t
+  :config )
+  
+
 ;;; init.el ends here
