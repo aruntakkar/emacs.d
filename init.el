@@ -107,6 +107,16 @@
     (setq flycheck-display-errors-function nil)
     (add-hook 'after-init-hook 'global-flycheck-mode)))
 
+(use-package anzu
+  :defer t
+  :init(add-hook 'after-init-hook 'global-anzu-mode))
+
+(use-package cycle-resize
+  :defer t
+  :bind (("C-M-v" . cycle-resize-window-vertically)
+	 ("C-M-h" . cycle-resize-window-horizontally)))
+  
+
 (use-package org
   :defer t
   :diminish t
