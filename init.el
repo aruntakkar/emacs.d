@@ -1,9 +1,9 @@
-;;; init.el --- Arun's Emacs Configuration
+;; init.el --- Arun's Emacs Configuration
 
 ;; Author: Arun
 ;; URL: https://github.com/aruntakkar/emacs.d
  
-;;; Commentary:
+;; Commentary:
 ;; This is my personal Emacs configuration.
 
 
@@ -60,8 +60,12 @@
 ;; External Packages
 ;; -----------------
 (use-package monokai-theme
-  :ensure t
-  :config (load-theme 'monokai t))
+  :defer t
+  :init (load-theme 'monokai t))
+
+(use-package powerline
+  :defer t
+  :init (powerline-default-theme))
 
 (use-package try
   :defer t)
@@ -109,18 +113,49 @@
 
 (use-package anzu
   :defer t
-  :init(add-hook 'after-init-hook 'global-anzu-mode))
+  :diminish anzu-mode
+  :init (add-hook 'after-init-hook 'global-anzu-mode))
+
+(use-package json-reformat
+  :defer t)
 
 (use-package cycle-resize
   :defer t
   :bind (("C-M-v" . cycle-resize-window-vertically)
 	 ("C-M-h" . cycle-resize-window-horizontally)))
-  
+
+(use-package emmet-mode
+  :defer t
+  :init (add-hook 'sgml-mode-hook 'emmet-mode)
+        (add-hook 'html-mode-hook 'emmet-mode)
+	(add-hook 'css-mode-hook 'emmet-mode))
 
 (use-package org
   :defer t
-  :diminish t
-  :config )
-  
+  :config
+  (progn
+    (setq org-log-done 'time)
+    (setq org-agenda-files (list "~/org-files/"))
+    (bind-keys :map global-map
+	     ("C-c 1" . org-store-link)
+	     ("C-c a" . org-agenda)
+	     ("C-c c" . org-capture))))
 
-;;; init.el ends here
+;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+ '(package-selected-packages
+   (quote
+    (json-reformat which-key use-package try rainbow-identifiers rainbow-delimiters py-autopep8 monokai-theme magit flycheck drag-stuff cycle-resize company anzu))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
