@@ -6,11 +6,9 @@
 ;; Commentary:
 ;; This is my personal Emacs configuration.
 
-
 (require 'package)
 
 ;;; Code:
-(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 (package-initialize)
@@ -21,7 +19,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(setq use-package-always-ensure t)
 
 ;; ----------------
 ;; Cleaning GUI
@@ -38,6 +35,7 @@
 (setq initial-scratch-message nil)
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
+(setq dired-dwim-target t)
 (toggle-frame-maximized)
 (global-linum-mode t)
 (show-paren-mode t)
@@ -67,6 +65,23 @@
   :defer t
   :init (powerline-default-theme))
 
+(use-package neotree
+  :defer t
+  :bind ("M-s" . neotree-toggle)
+  :config
+  (progn
+    (setq neo-theme (if (display-graphic-p) 'icons 'arrow))))
+
+(use-package all-the-icons
+  :defer t)
+
+(use-package highlight-indent-guides
+  :defer t
+  :init (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  :config
+  (progn
+    (setq highlight-indent-guides-method 'character)))
+
 (use-package try
   :defer t)
 
@@ -84,9 +99,9 @@
 
 (use-package company
   :defer t
-  :diminish company-mode
+  :diminish
   :init (add-hook 'after-init-hook 'global-company-mode))
-
+    
 (use-package magit
   :defer t
   :bind ("C-x g" . magit-status))
@@ -113,7 +128,6 @@
 
 (use-package anzu
   :defer t
-  :diminish anzu-mode
   :init (add-hook 'after-init-hook 'global-anzu-mode))
 
 (use-package json-reformat
@@ -126,9 +140,22 @@
 
 (use-package emmet-mode
   :defer t
+  :diminish 
   :init (add-hook 'sgml-mode-hook 'emmet-mode)
         (add-hook 'html-mode-hook 'emmet-mode)
 	(add-hook 'css-mode-hook 'emmet-mode))
+
+(use-package vimish-fold
+  :defer t
+  :init (vimish-fold-global-mode t))
+
+(use-package smartparens
+  :defer t 
+  :diminish smartparens-mode
+  :init (add-hook 'prog-mode-hook 'smartparens-mode))
+
+(use-package carbon-now-sh
+  :defer t)
 
 (use-package org
   :defer t
@@ -152,7 +179,7 @@
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (json-reformat which-key use-package try rainbow-identifiers rainbow-delimiters py-autopep8 monokai-theme magit flycheck drag-stuff cycle-resize company anzu))))
+    (carbon-now-sh vimish-fold smartparens highlight-indent-guides all-the-icons json-reformat which-key use-package try rainbow-identifiers rainbow-delimiters py-autopep8 monokai-theme magit flycheck drag-stuff cycle-resize company anzu))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
