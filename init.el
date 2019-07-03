@@ -36,9 +36,11 @@
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
 (setq dired-dwim-target t)
+(set 'temporary-file-directory "/tmp")
 (toggle-frame-maximized)
 (global-linum-mode t)
 (show-paren-mode t)
+(global-wakatime-mode)
 
 ;; -----------------
 ;; Encoding
@@ -99,7 +101,7 @@
 
 (use-package company
   :defer t
-  :diminish
+  :diminish compnay-mode
   :init (add-hook 'after-init-hook 'global-company-mode))
     
 (use-package magit
@@ -128,6 +130,7 @@
 
 (use-package anzu
   :defer t
+  :diminish anzu-mode
   :init (add-hook 'after-init-hook 'global-anzu-mode))
 
 (use-package json-reformat
@@ -140,10 +143,12 @@
 
 (use-package emmet-mode
   :defer t
+  :diminish emmet-mode
   :diminish 
   :init (add-hook 'sgml-mode-hook 'emmet-mode)
         (add-hook 'html-mode-hook 'emmet-mode)
-	(add-hook 'css-mode-hook 'emmet-mode))
+	(add-hook 'css-mode-hook 'emmet-mode)
+	(add-hook 'rjsx-mode-hook 'emmet-mode))
 
 (use-package vimish-fold
   :defer t
@@ -156,6 +161,17 @@
 
 (use-package carbon-now-sh
   :defer t)
+
+(use-package wakatime-mode
+  :defer t
+  :diminish wakatime-mode
+  :init (add-hook 'after-init-hook 'global-wakatime-mode))
+
+(use-package rjsx-mode
+  :defer t
+  :diminish rjsx-mode)
+
+(add-to-list 'auto-mode-alist '(".*\\.js\\'" . rjsx-mode))
 
 (use-package org
   :defer t
@@ -179,7 +195,8 @@
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (carbon-now-sh vimish-fold smartparens highlight-indent-guides all-the-icons json-reformat which-key use-package try rainbow-identifiers rainbow-delimiters py-autopep8 monokai-theme magit flycheck drag-stuff cycle-resize company anzu))))
+     (rjsx-mode wakatime-mode all-the-icons-dired neotree emmet-mode powerline carbon-now-sh vimish-fold smartparens highlight-indent-guides all-the-icons json-reformat which-key use-package try rainbow-identifiers rainbow-delimiters py-autopep8 monokai-theme magit flycheck drag-stuff cycle-resize company anzu)))
+ '(wakatime-api-key "0a249fc0-6adb-4eb9-9d26-3384f33c7676"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
